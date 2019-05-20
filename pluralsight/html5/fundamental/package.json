@@ -11,6 +11,6 @@
   "license": "CC-BY-NC-ND-4.0",
   "dependencies": {
     "gulp": "^4.0.0",
-    "http-server": "^0.9.0"
+    "http-server": "^0.11.1"
   }
 }
