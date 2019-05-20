@@ -11,7 +11,7 @@
     "webpack": "webpack -wd",
     "test": "jest --watch"
   },
-    "babel": {
+  "babel": {
     "presets": [
       "react",
       [
@@ -28,7 +28,7 @@
       "transform-object-rest-spread"
     ]
   },
-    "devDependencies": {
+  "devDependencies": {
     "babel-eslint": "7.2.3",
     "enzyme": "2.9.1",
     "eslint": "4.1.0",
@@ -38,14 +38,14 @@
   },
   "dependencies": {
     "axios": "0.16.2",
-    "babel-cli": "6.24.1",
+    "babel-cli": "^6.26.0",
     "babel-loader": "7.1.0",
     "babel-polyfill": "6.23.0",
     "babel-preset-env": "1.5.2",
     "babel-preset-react": "6.24.1",
     "babel-preset-stage-2": "6.24.1",
     "ejs": "2.5.6",
-    "express": "4.15.3",
+    "express": "^4.17.0",
     "lodash.debounce": "4.0.8",
     "lodash.pickby": "4.6.0",
     "pm2": "2.5.0",
