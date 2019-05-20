@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head></head>
+
+<body>
+  <!-- 1 Decare element -->
+  <!-- <button is="pluralsight-button" message="Hi from Cory House!"></button> -->
+
+  <script>
+    //1 Create a prototype that extends a native HTML element.
+    var PluralsightButtonProto = Object.create(HTMLButtonElement.prototype);
+
+     //2 Add any additional markup you like using the lifecycle callback methods.
+     //Here we're simply setting the innerHTML (which sets the label on the button, just like with regular buttons)
+     //And we're setting the value of the button.
+     //We can even style the button here, though typically defining a template with a <style> tag is be preferable
+    PluralsightButtonProto.createdCallback = function() {
+      this.innerHTML = "Pluralsight Button";
+      this.value = "Default Pluralsight button value";
+      this.style.color = 'orange';
+      this.style.fontSize = 'x-large';
+    }
+
+     //3. Add additional functions to handle behaviors
+    PluralsightButtonProto.displayMessage = function() {
+      var defaultHello = 'Hi from Pluralsight!';
+      var message = this.getAttribute('message') || defaultHello;
+      alert(message);
+    }
+
+     //4. When all configured, register the extended custom element
+    var PluralsightButton = document.registerElement('pluralsight-button', {
+      prototype: PluralsightButtonProto,
+      extends: 'button'
+    });
+
+    //2 New operator
+    document.body.appendChild(new PluralsightButton());
+
+    //3 CreateElement - Note that we're specifying the is attribute as the 2nd param
+    var button = document.createElement('button', 'pluralsight-button');
+    //document.body.appendChild(button);
+
+    //4 innerHTML
+    //document.body.innerHTML = '<button is="pluralsight-button" />';
+
+    //5. Attach click handler on the instance
+    document.querySelector('button').onclick = function() {
+      this.displayMessage();
+    }
+  </script>
+</body>
+
+</html>

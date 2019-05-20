@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+<head></head>
+
+<body>
+  <div id="host"></div>
+
+  <template>
+    <script>
+      var catName = 'Bernard';
+    </script>
+  </template>
+
+  <script>
+    var host = document.querySelector('#host');
+    var root = host.createShadowRoot();
+    var template = document.querySelector('template');
+    root.appendChild(document.importNode(template.content, true));
+    alert('catName is ' + window.catName);
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <link rel="import" href="dream-garage.html" id="dream-garage">
+
+  <!-- Here's an alternative programmatic approach to creating the import -->
+  <script>
+    /*
+    var link = document.createElement('link');
+    link.rel = 'import';
+    link.href = 'dream-garage.html';
+    link.id = 'dream-garage';
+    document.head.appendChild(link);
+    */
+  </script>
+
+</head>
+
+<body>
+  <a href="#" onclick="getDisclaimer()">Disclaimer</a>
+
+  <script>
+    var content = document.querySelector("#dream-garage").import;
+    var carList = content.querySelector('ul');
+    document.body.appendChild(carList);
+  </script>
+</body>
+
+</html>

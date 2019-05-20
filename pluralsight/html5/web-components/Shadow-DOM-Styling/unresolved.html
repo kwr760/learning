@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head></head>
+
+<body>
+  <style>
+    /* STEP 4 Define some styles for x-foo */
+    x-foo:unresolved {
+      color: red;
+    }
+    /* if x-foo is registered, the text in x-foo is green */
+    x-foo {
+      color: green;
+    }
+
+    /* STEP 5 Create style for foo
+  </style>
+
+  <!-- STEP 5 Create <foo> and note how it's not styled by :unresolved -->
+  <foo>
+    <p>Unaffected by :unresolved because I don't have a dash
+    in my name and am thus not treated as a custom element.</p>
+  </foo>
+
+  <!-- STEP 1 Create a reference to custom element we haven't created yet-->
+  <x-foo>I'm red because I match x-foo:unresolved.</x-foo>
+
+  <!-- STEP 2 Define a template that we'll use for the x-foo custom element -->
+  <template>
+    I'm green because I'm now resolved.
+  </template>
+
+  <!-- STEP 3 Create prototype for the xFoo custom element -->
+  <script>
+    var XProto = Object.create(HTMLElement.prototype);
+
+    XProto.createdCallback = function() {
+      var template = document.querySelector('template');
+      var templateClone = document.importNode(template.content, true);
+      this.createShadowRoot().appendChild(templateClone);
+    }
+
+    //document.registerElement('x-foo', { prototype: XProto });
+  </script>
+</body>
+
+</html>

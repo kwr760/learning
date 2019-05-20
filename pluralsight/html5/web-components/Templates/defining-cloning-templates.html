@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+  <head></head>
+
+  <body>
+    <template>
+      <p>You can't see me because I'm <strong>in a template!</strong></p>
+
+      <script>
+        alert('This will not alert until cloned');
+      </script>
+
+      <img src="bad/path.jpg" />
+    </template>
+
+
+    <p>
+    This is a paragraph in the body
+    </p>
+
+    <script>
+      //this gets the template
+      var template = document.querySelector('template');
+
+      //note that this works
+      p = document.querySelector('p');
+      console.log(p);
+
+      //But this gets nothing
+      var p = document.querySelector('template p');
+      console.log(p);
+
+      //Instead, to access content, need to use content property
+      console.log(template.content)
+    </script>
+  </body>
+
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+    car-list /deep/ li {
+      color: red;
+    }
+
+    video /deep/ input[type="range"] {
+      background-color: blue;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <video controls></video>
+
+  <car-list>
+    Dealers
+    <dealer-list></dealer-list>
+  </car-list>
+
+  <template id="car-list">
+      <ul>
+        <li>Ferrari Enzo</li>
+        <li>Porsche 911 Turbo</li>
+        <li>Dodge Caravan</li>
+      </ul>
+      <shadow></shadow>
+  </template>
+
+  <template id="dealer-list">
+    <ul>
+      <li>Beverly Hills Ferrari</li>
+      <li>Beverly Hills Dodge</li>
+    </ul>
+  </template>
+
+  <script>
+    var CarList = Object.create(HTMLElement.prototype);
+
+    CarList.createdCallback = function() {
+      var template = document.querySelector('#car-list');
+      var templateClone = document.importNode(template.content, true);
+      this.createShadowRoot().appendChild(templateClone);
+    };
+
+    document.registerElement('car-list', {
+      prototype: CarList
+    });
+
+    var DealerList = Object.create(HTMLElement.prototype);
+
+    DealerList.createdCallback = function() {
+      var template = document.querySelector('#dealer-list');
+      var templateClone = document.importNode(template.content, true);
+      this.createShadowRoot().appendChild(templateClone);
+    };
+
+    document.registerElement('dealer-list', {
+      prototype: DealerList
+    });
+  </script>
+</body>
+
+</html>

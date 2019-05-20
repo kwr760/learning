@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+    #host {
+      border: solid 3px orange;
+    }
+
+    p {
+      color: red;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="host" class="warning">
+    <p>
+      My host is styled via the :host selector. The border style in the light DOM "wins" because :host has low specificity.
+    </p>
+  </div>
+
+  <template>
+    <style>
+      :host(.error) {
+        border: solid 1px red;
+      }
+      :host(.warning) {
+        border: solid 1px yellow;
+      }
+      :host(:hover) {
+        background-color: green;
+      }
+    </style>
+    <content></content>
+  </template>
+
+  <script>
+    var host = document.querySelector('#host');
+    var root = host.createShadowRoot();
+    var template = document.querySelector('template');
+    root.appendChild(template.content);
+  </script>
+</body>
+
+</html>

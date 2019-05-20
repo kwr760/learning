@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+<head></head>
+
+<body>
+  <div>
+    <h1>Header Defined in Light DOM</h1>
+  </div>
+
+  <script>
+    var root = document.querySelector('div').createShadowRoot();
+    root.innerHTML = '<content select="h1"></content>';
+
+    console.log(document.querySelector('h1'));
+    console.log(root.querySelector('content h1')); // null since can't traverse into content;
+    console.log(root.querySelector('content').contains('h1')); // false
+  </script>
+</body>
+
+</html>

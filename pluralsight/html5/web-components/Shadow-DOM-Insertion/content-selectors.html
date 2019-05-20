@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head></head>
+
+<body>
+  <comment-form>
+    <h1>Tell us what's on your mind!</h1>
+
+    <p class="message">
+      Fill out the form below. We'll get back to you. Maybe. If we're not too busy.
+    </p>
+
+    <p class="message boring">
+      Boring message here about various legal concerns.
+    </p>
+
+    <p class="footer">
+      Privacy Policy
+    </p>
+
+    <span>Here's some text that no other content selectors match.</span>
+
+    <input type="button" value="Reset">
+  </comment-form>
+
+  <template>
+    <fieldset>
+      <legend>
+        <content select="h1"></content>
+      </legend>
+
+      <content select="p.message:not(.boring)"></content>
+
+      <textarea style="width: 400px; height: 200px;"></textarea>
+      <br/>
+
+      <input type="submit" value="Submit Comment">
+
+      <content select="input[type=button]"></content>
+
+      <content select=".footer"></content>
+
+      <content></content>
+    </fieldset>
+
+  </template>
+
+  <script>
+    var CommentProto = Object.create(HTMLElement.prototype);
+
+    CommentProto.createdCallback = function() {
+      var template = document.querySelector('template');
+      var templateClone = document.importNode(template.content, true);
+      var shadow = this.createShadowRoot();
+      shadow.appendChild(templateClone);
+
+      //note how I can query the shadow DOM using the same methods,
+      //but need to run them against the shadowRoot.
+      console.log(shadow.getElementsByTagName('textarea').length);
+
+      //note how this returns nothing, because it's only querying the light DOM
+      console.log(document.getElementsByTagName('textarea').length);
+    };
+
+    document.registerElement('comment-form', {
+      prototype: CommentProto
+    });
+  </script>
+</body>
+
+</html>

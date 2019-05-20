@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head></head>
+
+<body>
+  <comment-form>
+    <h1>Tell us what's on your mind!</h1>
+
+    <p class="message">
+      Fill out the form below. We'll get back to you. Maybe. If we're not too busy.
+    </p>
+
+    <p class="instructions">Fill out this form</p>
+
+    <p class="footer">Privacy Policy: jargon</p>
+
+  </comment-form>
+
+  <template>
+    <fieldset>
+      <legend>
+        <content select="h1"></content>
+      </legend>
+
+      <content select="p.instructions"></content>
+
+      <textarea style="width: 400px; height: 200px;"></textarea>
+      <br/>
+
+      <input type="submit" value="Submit Comment">
+
+      <content select=".footer"></content>
+
+    </fieldset>
+
+  </template>
+
+  <script>
+    var CommentProto = Object.create(HTMLElement.prototype);
+
+    CommentProto.createdCallback = function() {
+      var template = document.querySelector('template');
+      var templateClone = document.importNode(template.content, true);
+      var shadow = this.createShadowRoot();
+      shadow.appendChild(templateClone);
+    };
+
+    document.registerElement('comment-form', {
+      prototype: CommentProto
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script>
+    //note that since the browser loads the import file immediately,
+     //so we need to place these event handler functions above the import
+     //or they'll be undefined when the link tag is parsed.
+    function loaded(event) {
+      console.log('Import Loaded');
+    }
+
+    function error(event) {
+      console.log('Uh oh, couldn\'t load ' + event.target.href);
+    }
+  </script>
+
+  <link rel="import" href="import.html" onload="loaded(event)" onerror="error(event)">
+
+</head>
+
+<body>
+  <script>
+    function createLinkDynamically() { //Creates the link tag dynamically and attaches handlers to it.
+      var link = document.createElement('link');
+      link.rel = 'import';
+      link.href = 'dreamGarage.html';
+      link.id = 'dream-garage';
+      link.onload = function(event) {
+        console.log('Import Loaded Dynamically');
+        getCarListFromImport(); //For phase 2, I can remove this and instantiate via <dream-garage> instead.
+      };
+
+      link.onerror = function(event) {
+        console.log('Uh oh, couldn\'t load ' + event.target.href);
+      };
+
+      document.head.appendChild(link);
+    }
+  </script>
+</body>
+
+</html>

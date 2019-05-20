@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+</head>
+
+<body>
+  <hello-world></hello-world>
+
+  <script>
+    var HelloProto = Object.create(HTMLElement.prototype);
+
+    HelloProto.createdCallback = function() {
+      this.innerHTML = '<h1>Hello World</h1>';
+    }
+
+    HelloProto.attachedCallback = function() {
+      console.log('Attached!');
+    };
+
+    HelloProto.detachedCallback = function() {
+      console.log('Detached!');
+    };
+
+    HelloProto.attributeChangedCallback = function(attrName, oldval, newVal) {
+      console.log('The attribute "' + attrName + '" has changed to ' + newVal);
+      this.createdCallback();
+    };
+
+    var Hello = document.registerElement('hello-world', {
+      prototype: HelloProto
+    });
+
+     //1 Attach
+    var hello = document.querySelector('hello-world');
+
+     //2 Change Attribute
+     hello.setAttribute('test', 1);
+
+     //3 Remove
+     //hello.remove();
+  </script>
+</body>
+
+</html>

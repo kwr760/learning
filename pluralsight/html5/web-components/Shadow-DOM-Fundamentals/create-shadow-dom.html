@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <style>
+      h1 {color: red;}
+    </style>
+  </head>
+
+  <body>
+    <h1>Hello World from the Light DOM</h1>
+
+    <template>
+      <style>
+        h1 {color: green;}
+      </style>
+      <h1>Hello World from the Shadow DOM</h1>
+    </template>
+
+    <div id="shadow-host"></div>
+
+    <script>
+      var template = document.querySelector('template');
+      var host = document.querySelector('#shadow-host');
+      var root = host.createShadowRoot();
+      root.appendChild(document.importNode(template.content, true));
+
+      //or, just set via innerHTML
+      //root.innerHTML = "<h1>Hello World from Shadow DOM!</h1>";
+
+      //to get elements in light DOM
+      console.log(document.querySelector('h1'));
+
+      //to get elements in the shadow DOM
+      console.log(root.querySelector('h1'));
+    </script>
+  </body>
+
+</html>

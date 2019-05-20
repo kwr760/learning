@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head></head>
+
+<body>
+  <select id="light-dom">
+    <option>Light DOM Option 1</option>
+    <option>Light DOM Option 2</option>
+  </select>
+
+  <div id="host">
+    <select id="distributed">
+      <option>Distributed Option 1</option>
+      <option>Distributed Option 2</option>
+    </select>
+  </div>
+
+  <template>
+    <div>
+      <content></content>
+    </div>
+    <div>
+      <p>Note how the change event for this dropdown from the shadow DOM is stopped.
+      It doesn't show up in the console.</p>
+      <select id="shadow">
+        <option>Shadow Option 1</option>
+        <option>Shadow Option 2</option>
+      </select>
+    </div>
+  </template>
+  <script>
+    var host = document.querySelector('#host');
+    var root = host.createShadowRoot();
+    var template = document.querySelector('template');
+    root.appendChild(document.importNode(template.content, true));
+
+    document.addEventListener('change', function(e) {
+      console.log(e.target.id + ' changed!');
+    });
+  </script>
+</body>
+
+</html>

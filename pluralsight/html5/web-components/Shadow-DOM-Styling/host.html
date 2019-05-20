@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head></head>
+
+<body>
+  <div id="host">
+    <p>
+      My host is styled via the :host selector.
+      <p>
+  </div>
+
+  <template>
+    <style>
+      :host {
+        border: solid 1px red;
+      }
+    </style>
+    <content></content>
+  </template>
+
+  <script>
+    var host = document.querySelector('#host');
+    var root = host.createShadowRoot();
+    var template = document.querySelector('template');
+    root.appendChild(template.content);
+  </script>
+</body>
+
+</html>

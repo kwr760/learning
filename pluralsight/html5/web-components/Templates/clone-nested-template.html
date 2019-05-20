@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head></head>
+
+<body>
+  <template id="header">
+    <div>Header</div>
+    <template id="body">
+      <div>Body</div>
+    </template>
+  </template>
+
+  <script>
+    var template = document.querySelector('#header');
+    var clone = document.importNode(template.content, true);
+    document.body.appendChild(clone);
+
+    //now must clone the nested body separately
+    template = document.querySelector('#body');
+    clone = document.importNode(template.content, true);
+    document.body.appendChild(clone);
+  </script>
+</body>
+
+</html>

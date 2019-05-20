@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head></head>
+  <body>
+    <div id="shadow-host">
+      <button>My Button</button>
+    </div>
+
+    <template>
+      <style>
+        :host-context(body) {
+          background-color: red;
+          padding: 20px;
+        }
+      </style>
+      <content></content>
+    </template>
+
+    <script>
+      var host = document.querySelector('#shadow-host');
+      var root = host.createShadowRoot();
+      var template = document.querySelector('template');
+      root.appendChild(template.content.cloneNode(true));
+    </script>
+  </body>
+</html>

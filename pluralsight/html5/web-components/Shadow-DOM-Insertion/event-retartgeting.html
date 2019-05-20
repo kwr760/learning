@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+  <head></head>
+
+<body>
+  <button id="light-dom-button">Light DOM Button</button>
+
+  <div id="host"></div>
+
+  <template>
+    <button id="shadow-dom-button">Shadow DOM Button</button>
+  </template>
+
+  <script>
+    var host = document.querySelector('#host');
+    var root = host.createShadowRoot();
+    var template = document.querySelector('template');
+    root.appendChild(document.importNode(template.content, true));
+
+    document.addEventListener('click', function(e) {
+      console.log(e.target.id + ' clicked!');
+    });
+  </script>
+</body>
+
+</html>

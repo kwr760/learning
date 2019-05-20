@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head></head>
+  <body>
+    <div>
+      <button>My Button</button>
+    </div>
+
+    <template>
+      <style>
+        ::content > button {
+          border: 1px solid red;
+        }
+
+        ::content > button:hover {
+          border: 1px solid green;
+        }
+      </style>
+      <content></content>
+    </template>
+    <script>
+      var host = document.querySelector('div');
+      var root = host.createShadowRoot();
+      var template = document.querySelector('template');
+      root.appendChild(template.content.cloneNode(true));
+    </script>
+  </body>
+</html>
