@@ -28,7 +28,7 @@ export const store = createStore(
         case mutations.SET_TASK_GROUP:
           return tasks.map(task => {
             return (task.id === action.taskID) ?
-              {...task, groupID: action.groupID} :
+              {...task, group: action.groupID} :
               task;
           });
         case mutations.SET_TASK_NAME:
