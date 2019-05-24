@@ -55,5 +55,8 @@ export const defaultState = {
     id: "C1",
     task: "T1",
     content: "Great Work"
-  }]
+  }],
+  session: {
+    authenticated: false
+  }
 };
