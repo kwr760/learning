@@ -35,6 +35,6 @@ export function addLinkFailed(link, message) {
 
 export function addLinkCancelled() {
   return {
-    type: ADD_LINK_CANCELLED
+    type: ADD_LINK_CANCELLED,
   };
 }

@@ -10,7 +10,7 @@ import {
 } from './constants';
 
 import {
-  ADD_LINK_SUCCESS
+  ADD_LINK_SUCCESS,
 } from '../LinkFormContainer/constants';
 
 const initialState = fromJS({

@@ -1,12 +1,12 @@
 .errorMessage {
-  color: #ce1313;
+  color: #CE1313;
   padding-top: 10px;
   padding-bottom: 10px;
   font-size: 14px;
 }
 
 .inputError {
-  border-bottom-color: #ce1313;
+  border-bottom-color: #CE1313;
 }
 
 .input {
@@ -19,9 +19,10 @@
   border-right: 0;
   width: 100%;
   font-size: 18px;
+
   &:focus {
     outline: none;
-    border-bottom-color: #00afcc;
+    border-bottom-color: #00AFCC;
     border-bottom-width: 2px;
   }
 }
