@@ -13,8 +13,8 @@
 			<p class="clickable">
 			Click me, too!
 			</p>
-			<p>This is some more text with an embedded 
-			   <span class="clickable">clickable</span> element.			
+			<p>This is some more text with an embedded
+			   <span class="clickable">clickable</span> element.
 		</div>
 		<div id="Messages" >
 			<h5>Messages</h5>
@@ -24,7 +24,7 @@
 	<script>
 	$(function()
 	{	var showEventMessage = function(options)
-			{	options = $.extend( 
+			{	options = $.extend(
 				{	eventType: 'CLICK',
 					eventTarget: this,
 					suffix: '<br/>'
@@ -34,7 +34,7 @@
 							  options.suffix;
 				$('#Messages').append(message);
 			};
-		
+
 		$('.clickable')
 			.click(function(event)
 			{	showEventMessage.call(this);

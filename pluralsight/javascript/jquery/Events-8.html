@@ -13,7 +13,7 @@
 			<p class="clickable">
 			Click me, too!
 			</p>
-			<p class="clickable">This is some more text with an embedded 
+			<p class="clickable">This is some more text with an embedded
 			   <span class="clickable">clickable</span> element.
 			</p>
 		</div>
@@ -25,7 +25,7 @@
 	<script>
 	$(function()
 	{	var showEventMessage = function(options)
-			{	options = $.extend( 
+			{	options = $.extend(
 				{	eventType: 'click',
 					eventTarget: this,
 					suffix: '<br/>'
@@ -48,20 +48,20 @@
 				else
 					$(internalObject).trigger('recordsloaded');
 			};
-		
+
 		$('.clickable')
 			.on('click', function(event)
 			{	var $this = $(this),
 					clickCount = ($this.data('clickcount') || 0) +1;
-			
+
 				$this.data('clickcount', clickCount);
-				
-				showEventMessage.call(this, 
+
+				showEventMessage.call(this,
 						{ eventType: '' + clickCount + ') ' + event.type });
-				
+
 				if (clickCount === 3)
 					$this.trigger('click3');
-				
+
 				if ($this.attr('type') === 'button')
 					loadRecord();
 			})
@@ -74,7 +74,7 @@
 			.on('recordsloaded', function(event)
 			{	showEventMessage.call(this, {eventType: event.type});
 				$.each(internalObject.records, function()
-				{	$('#Messages').append(' -- ' + 
+				{	$('#Messages').append(' -- ' +
 						this.description + ': ' + this.value + '<br/>');
 				});
 			});

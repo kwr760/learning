@@ -19,7 +19,7 @@
 	<script>
 	$(function()
 	{	var showEventMessage = function(options)
-			{	options = $.extend( 
+			{	options = $.extend(
 				{	eventType: 'CLICK',
 					eventTarget: this,
 					suffix: '<br/>'
@@ -29,11 +29,11 @@
 							  options.suffix;
 				$('#Messages').append(message);
 			};
-		
+
 		$('.clickable').click(function()
 		{	//showEventMessage.call(this, {suffix: '!<br/>'});
 			showEventMessage({ eventTarget: this });
-		});		
+		});
 	});
 	</script>
 </html>

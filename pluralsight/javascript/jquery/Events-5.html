@@ -13,7 +13,7 @@
 			<p class="clickable">
 			Click me, too!
 			</p>
-			<p class="clickable">This is some more text with an embedded 
+			<p class="clickable">This is some more text with an embedded
 			   <span class="clickable">clickable</span> element.
 			</p>
 		</div>
@@ -25,7 +25,7 @@
 	<script>
 	$(function()
 	{	var showEventMessage = function(options)
-			{	options = $.extend( 
+			{	options = $.extend(
 				{	eventType: 'click',
 					eventTarget: this,
 					suffix: '<br/>'
@@ -35,7 +35,7 @@
 							  options.suffix;
 				$('#Messages').append(message);
 			};
-		
+
 		$('.clickable')
 			.off('click')
 			.on('click dblclick mousedown', function(event)
@@ -54,12 +54,12 @@
 			{	if (!event.isPropagationStopped() &&
 					!event.isImmediatePropagationStopped() &&
 					!event.isDefaultPrevented())
-				{	showEventMessage.call(this, 
+				{	showEventMessage.call(this,
 						{ eventType: event.type, suffix: '#2<br/>'});
 				}
 			})
 			.on('selectstart', function(event)
-			{	return false;			
+			{	return false;
 			});
 	});
 	</script>
