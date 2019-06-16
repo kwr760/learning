@@ -1,18 +1,34 @@
 import path from 'path';
-import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import WebpackMd5Hash from 'webpack-md5-hash';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 export default {
-  debug: true,
   devtool: 'source-map',
-  noInfo: false,
+  mode: 'production',
   entry: {
     vendor: path.resolve(__dirname, 'src/vendor'),
     main: path.resolve(__dirname, 'src/index')
   },
   target: 'web',
+  optimization: {
+    // splitChunks: {
+    //   chunks: 'all'
+    // },
+    minimizer: [
+      new UglifyJsPlugin({
+        cache: true,
+        parallel: true,
+        uglifyOptions: {
+          compress: false,
+          ecma: 6,
+          mangle: true
+        },
+        sourceMap: true
+      })
+    ]
+  },
   output: {
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
@@ -24,12 +40,6 @@ export default {
 
     // Hash the files using MD5 so that their names change when the content changes.
     new WebpackMd5Hash(),
-
-    // Use CommonsChunkPlugin to create a separate bundle
-    // of vendor libraries so that they're cached separately.
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor'
-    }),
 
     // Create HTML file that includes reference to bundled JS.
     new HtmlWebpackPlugin({
@@ -47,21 +57,23 @@ export default {
         minifyURLs: true
       },
       inject: true,
-      // Properties you define here are available in index.html
-      // using htmlWebpackPlugin.options.varName
-      trackJSToken: '43ad216f57d94259968435894490a5c7'
+      trackJSToken: '43ad216f57d94259968435894490a5c7',
+      chunks: ['main']
     }),
-
-    // Eliminate duplicate packages when generating bundle
-    new webpack.optimize.DedupePlugin(),
-
-    // Minify JS
-    new webpack.optimize.UglifyJsPlugin()
   ],
   module: {
-    loaders: [
-      {test: /\.js$/, exclude: /node_modules/, loaders: ['babel']},
-      {test: /\.css$/, loader: ExtractTextPlugin.extract('css?sourceMap')}
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: [
+          'babel-loader'
+        ]
+      },
+      {
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract('css?sourceMap')
+      }
     ]
   }
 };
