@@ -7,9 +7,7 @@ const bookController = require('../controllers/booksController');
 describe('Book Controller Tests:', () => {
   describe('Post', () => {
     it('should not allow an empty title on post', () => {
-      const Book = () => {
-        this.save = () => {};
-      };
+      const Book = function() { this.save = () => {}; };
       const req = {
         body: {
           author: 'Jon',

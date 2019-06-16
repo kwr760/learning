@@ -5,11 +5,16 @@ const bodyParser = require('body-parser');
 const Book = require('./models/bookModel');
 
 const app = express();
+let mongoUrl = 'mongodb://localhost/bookAPI';
 if (process.env.ENV === 'Test') {
-  mongoose.connect('mongodb://localhost/bookAPI-Test');
-} else {
-  mongoose.connect('mongodb://localhost/bookAPI');
+  mongoUrl += '-Test';
 }
+
+mongoose.connect(
+  mongoUrl,
+  { useNewUrlParser: true }
+);
+
 const port = process.env.PORT || 3000;
 
 const bookRouter = require('./routes/bookRouter')(Book);
