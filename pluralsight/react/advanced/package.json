@@ -8,6 +8,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "pm2 start lib/server.js --watch --interpreter babel-node",
+    "stop": "pm2 stop lib/server.js",
+    "status": "pm2 status",
     "webpack": "webpack -wd",
     "test": "jest --watch"
   },
