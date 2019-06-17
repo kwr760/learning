@@ -24,7 +24,8 @@ var config = {
         dist: './dist',
         mainJs: './src/main.js'
     }
-}
+};
+
 gulp.task('connect', function() {
     connect.server({
         root: ['dist'],

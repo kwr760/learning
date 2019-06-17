@@ -22,11 +22,6 @@ module.exports = {
                 WEBPACK: true
             }
         }),
-        /**
-         * Uglifies JS which improves performance
-         * React will throw console warnings if this is not implemented
-         */
-        new webpack.optimize.UglifyJsPlugin()
     ],
     resolve: {
         extensions: ['.js', '.json', '.jsx'],
