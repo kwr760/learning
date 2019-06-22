@@ -13,9 +13,9 @@ export default {
   },
   target: 'web',
   optimization: {
-    // splitChunks: {
-    //   chunks: 'all'
-    // },
+    splitChunks: {
+      chunks: 'all'
+    },
     minimizer: [
       new UglifyJsPlugin({
         cache: true,
@@ -58,7 +58,7 @@ export default {
       },
       inject: true,
       trackJSToken: '43ad216f57d94259968435894490a5c7',
-      chunks: ['main']
+      chunks: ['vendor', 'main']
     }),
   ],
   module: {
