@@ -72,7 +72,10 @@ export default {
       },
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract('css?sourceMap')
+        use: [
+          'style-loader',
+          'css-loader'
+        ]
       }
     ]
   }
