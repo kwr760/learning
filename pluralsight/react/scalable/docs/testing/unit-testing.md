@@ -1,45 +1,29 @@
 # Unit testing
 
-Unit testing is the practice of testing the smallest possible *units* of our
+Unit testing is the practice of testing the smallest possible _units_ of our
 code, functions. We run our tests and automatically verify that our functions
 do the thing we expect them to do. We assert that, given a set of inputs, our
 functions return the proper values and handle problems.
 
-This boilerplate uses the [Mocha](https://github.com/mochajs/mocha) test
-framework to run the tests and [expect](http://github.com/mjackson/expect) for
-assertions. These libraries make writing tests as easy as speaking - you
+This boilerplate uses the [Jest](https://github.com/facebook/jest) test
+framework to run tests and make assertions. This library makes writing tests as easy as speaking - you
 `describe` a unit of your code and `expect` `it` to do the correct thing.
 
 <!-- TOC depthFrom:2 depthTo:4 withLinks:1 updateOnSave:1 orderedList:0 -->
 
 - [Basics](#basics)
-	- [Mocha](#mocha)
-	- [expect](#expect)
+  - [Jest](#jest)
 - [Testing Redux Applications](#testing-redux-applications)
-	- [Reducers](#reducers)
-		- [rewire](#rewire)
-	- [Actions](#actions)
+  - [Reducers](#reducers)
+    - [snapshots](#snapshots)
+  - [Actions](#actions)
 
 <!-- /TOC -->
 
 We use this glob pattern to find unit tests `app/**/*.test.js` - this tells
-mocha to run all files that end with `.test.js` anywhere within the `app`
+Jest to run all files that end with `.test.js` anywhere within the `app`
 folder. Use this to your advantage, and put unit tests next to the files you
 want to test so relevant files stay together!
-
-Imagine a navigation bar, this is what its folder might look like:
-
-```
-NavBar                   # Wrapping folder
-├── NavBar.css           # Styles
-├── NavBar.react.js      # Actual component
-├── NavBar.actions.js    # Actions
-├── NavBar.constants.js  # Constants
-├── NavBar.reducer.js    # Reducer
-└── test                        # Folder of tests
-    ├── NavBar.actions.test.js  # Actions tests
-    └── NavBar.reducer.test.js  # Reducer tests
-```
 
 ## Basics
 
@@ -54,22 +38,21 @@ export function add(x, y) {
 }
 ```
 
-> Note: The `export` here is ES6 syntax, and you will need an ES6 transpiler
-  (e.g. babel.js) to run this JavaScript.
+> Note: The `export` here is ES6 syntax, and you would need an ES6 transpiler
+> (e.g. babel.js) to run this JavaScript.
 
-> The `export` exports our function as a module, which we can `import` and use
-  in other files. Continue below to see what that looks like.
+> The `export` makes our function available as a module, which we can `import` and use
+> in other files. Continue below to see what that looks like.
 
-### Mocha
+### Jest
 
-Mocha is our unit testing framework. Its API, which we write tests with, is
+Jest is our unit testing framework. Its API, which we write tests with, is
 speech like and easy to use.
 
-> Note: This is the [official documentation](http://mochajs.org) of Mocha.
+> Note: The official documentation for Jest can be found [here](https://facebook.github.io/jest/).
 
 We're going to add a second file called `add.test.js` with our unit tests
-inside. Running said unit tests requires us to enter `mocha add.test.js` into
-the command line.
+inside.
 
 First, we `import` the function in our `add.test.js` file:
 
@@ -82,48 +65,23 @@ import { add } from './add.js';
 Second, we `describe` our function:
 
 ```javascript
-describe('add()', () => {
-
-});
+describe('add()', () => {});
 ```
 
 > Note: `(arg1, arg2) => { }` is ES6 notation for anonymous functions, i.e. is
-the same thing as `function(arg1, arg2) { }`
+> the same thing as `function(arg1, arg2) { }`
 
-Third, we tell Mocha what `it` (our function) should do:
+Third, we tell Jest what `it` (our function) should do:
 
 ```javascript
 describe('add()', () => {
-  it('adds two numbers', () => {
+  it('adds two numbers', () => {});
 
-  });
-
-  it('doesnt add the third number', () => {
-
-  });
+  it("doesn't add the third number", () => {});
 });
 ```
 
-That's the entire Mocha part! Onwards to the actual tests.
-
-### expect
-
-Using expect, we `expect` our little function to return the same thing every
-time given the same input.
-
-> Note: This is the [official documentation](https://github.com/mjackson/expect) for expect.
-
-First, we have to import `expect` at the top of our file, before the tests:
-
-```javascript
-import expect from 'expect';
-
-describe('add()', () => {
-  // [...]
-});
-```
-
-We're going to test that our little function correctly adds two numbers first.
+Now, We're going to test that our little function correctly adds two numbers.
 We are going to take some chosen inputs, and `expect` the result `toEqual` the
 corresponding output:
 
@@ -140,23 +98,23 @@ third number if one is present:
 
 ```javascript
 // [...]
-it('doesnt add the third number', () => {
- expect(add(2, 3, 5)).toEqual(add(2, 3));
+it("doesn't add the third number", () => {
+  expect(add(2, 3, 5)).toEqual(add(2, 3));
 });
 // [...]
 ```
 
 > Note: Notice that we call `add` in `toEqual`. I won't tell you why, but just
-  think about what would happen if we rewrote the expect as `expect(add(2, 3, 5)).toEqual(5)`
-  and somebody broke something in the add function. What would this test
-  actually... test?
+> think about what would happen if we rewrote the expect as `expect(add(2, 3, 5)).toEqual(5)`
+> and somebody broke something in the add function. What would this test
+> actually... test?
 
-Should our function work, Mocha will show this output when running the tests:
+Should our function work, Jest will show this output when running the tests:
 
 ```
 add()
   ✓ adds two numbers
-  ✓ doesnt add the third number
+  ✓ doesn't add the third number
 ```
 
 Lets say an unnamed colleague of ours breaks our function:
@@ -176,12 +134,18 @@ Thankfully, we have unit tests in place. Because we run the unit tests before we
 deploy our application, we see this output:
 
 ```
-add()
-  1) adds two numbers
-  ✓ doesnt add the third number
+● add() › adds two numbers
 
-  1) add adds two numbers:
-    Error: Expected 6 to equal 5
+  expect(received).toEqual(expected)
+
+  Expected value to equal:
+    5
+  Received:
+    6
+
+add()
+  ✕ adds two numbers
+  ✓ doesn't add the third number
 ```
 
 This tells us that something is broken in the add function before any users get
@@ -189,16 +153,29 @@ the code! Congratulations, you just saved time and money!
 
 ## Testing Redux Applications
 
+Imagine a navigation bar, this is what its folder might look like:
+
+```
+NavBar          # Wrapping folder
+├── index.js      # Actual component
+├── actions.js    # Actions
+├── constants.js  # Constants
+├── reducer.js    # Reducer
+└── test               # Folder of tests
+    ├── actions.test.js  # Actions tests
+    └── reducer.test.js  # Reducer tests
+```
+
 This boilerplate uses Redux, partially because it turns our data flow into
-testable (pure) functions. Let's go back to our `NavBar` component from above,
-and see what testing the actions and the reducer of it would look like.
+testable (pure) functions. Using the `NavBar` component above,
+let's see what testing the actions and the reducer would look like.
 
 This is what our `NavBar` actions look like:
 
 ```javascript
-// NavBar.actions.js
+// actions.js
 
-import { TOGGLE_NAV } from './NavBar.constants.js';
+import { TOGGLE_NAV } from './constants';
 
 export function toggleNav() {
   return { type: TOGGLE_NAV };
@@ -208,19 +185,19 @@ export function toggleNav() {
 with this reducer:
 
 ```javascript
-// NavBar.reducer.js
+// reducer.js
 
-import { TOGGLE_NAV } from './NavBar.constants.js';
+import { TOGGLE_NAV } from './constants';
 
 const initialState = {
-  open: false
+  open: false,
 };
 
 function NavBarReducer(state = initialState, action) {
   switch (action.type) {
     case TOGGLE_NAV:
       return Object.assign({}, state, {
-        open: !state.open
+        open: !state.open,
       });
     default:
       return state;
@@ -234,14 +211,13 @@ Lets test the reducer first!
 
 ### Reducers
 
-First, we have to import `expect`, the reducer and the constant.
+First, we have to import the reducer and the action.
 
 ```javascript
-// NavBar.reducer.test.js
+// reducer.test.js
 
-import expect from 'expect';
-import NavBarReducer from '../NavBar.reducer';
-import { TOGGLE_NAV } from '../NavBar.constants';
+import NavBarReducer from '../reducer';
+import { toggleNav } from '../actions';
 ```
 
 Then we `describe` the reducer, and add two tests: we check that it returns the
@@ -249,13 +225,9 @@ initial state and that it handles the `toggleNav` action.
 
 ```javascript
 describe('NavBarReducer', () => {
-  it('returns the initial state', () => {
+  it('returns the initial state', () => {});
 
-  });
-
-  it('handles the toggleNav action', () => {
-
-  });
+  it('handles the toggleNav action', () => {});
 });
 ```
 
@@ -268,7 +240,7 @@ return the initial state of the `NavBar`, which is
 
 ```javascript
 {
-  open: false
+  open: false,
 }
 ```
 
@@ -278,65 +250,57 @@ Lets put that into practice:
 describe('NavBarReducer', () => {
   it('returns the initial state', () => {
     expect(NavBarReducer(undefined, {})).toEqual({
-      open: false
+      open: false,
     });
   });
 
-  it('handles the toggleNav action', () => {
+  it('handles the toggleNav action', () => {});
+});
+```
 
+This works, but we have one problem: We also have to explicitly write the initial state itself. When
+somebody changes the initial state, they will also have to manually update this code to directly reflect it.
+
+Instead, we can leverage Jest's new snapshots feature.
+
+#### Snapshots
+
+Jest has the ability to store serialized snapshots of most basic types of information (objects, arrays, etc). It then compares the stored version when later tests are run, to find any unexpected mismatches.
+
+We can write the test like
+
+```javascript
+describe('NavBarReducer', () => {
+  it('returns the initial state', () => {
+    expect(NavBarReducer(undefined, {})).toMatchSnapshot();
+  });
+
+  it('handles the toggleNav action', () => {});
+});
+```
+
+Jest is now the one responsible for tracking the definition of the initial state. When somebody changes it in the future, Jest will warn that the snapshot doesn't match and then allow them to update the snapshot with a single command. No more manual updates!
+
+For more details on Jest snapshots, please view [Kent Dodd's feature video](https://egghead.io/lessons/javascript-use-jest-s-snapshot-testing-feature).
+
+This is how our finished reducer test might look like:
+
+```javascript
+// NavBar.reducer.test.js
+
+import NavBarReducer from '../NavBar.reducer';
+import { toggleNav } from '../NavBar.actions';
+
+describe('NavBarReducer', () => {
+  it('returns the initial state', () => {
+    expect(NavBarReducer(undefined, {})).toMatchSnapshot();
+  });
+
+  it('handles the toggleNav action', () => {
+    expect(NavBarReducer({}, toggleNav())).toMatchSnapshot();
   });
 });
 ```
-
-This works, but we have one problem: We also test the initial state itself. When
-somebody changes the initial state, this test will fail, even though the reducer
-correctly returns the initial state.
-
-To fix that, we have to `import` the initial state from the reducer file and
-check that the reducer returns that. This has one problem: Our initial state
-isn't `export`ed.
-
-Now, you might be thinking "Ha! easy: simply add an `export` before the
-`const initialState` in the reducer and boom!"... But in fact we _don't_ want
-to do that because it's an internal (or "private") property of that module
-alone and shouldn't really be accessible from the outside at all.
-
-This is where the `rewire` module comes in handy.
-
-#### rewire
-
-Rewire allows us to access properties we normally couldn't via special
-`__get__` and `__set__` methods it injects into modules.
-
-Start by `import`ing rewire **at the top** of your test file:
-
-```javascript
-// `NavBar.reducer.test.js`
-
-import expect from 'expect';
-import rewire from 'rewire';
-import NavBarReducer from '../NavBar.reducer';
-import { TOGGLE_NAV } from '../NavBar.constants';
-
-const initialState = NavBarReducer.__get__('initialState');
-```
-
-> Note: You might be wondering why we still `import` the `NavBarReducer` above.
-  The `NavBarReducer` imported with `rewire` isn't the _actual_ reducer, it's a
-  `rewire`d version.
-
-Now we can really see whether the `NavBarReducer` returns the initial state if
-no action is passed!
-
-```javascript
-it('returns the initial state', () => {
-  expect(NavBarReducer(undefined, {})).toEqual(initialState);
-});
-```
-
-w00t, we fixed the test!
-
-> For more information on Rewire, see the [official documentation](https://github.com/jhnns/rewire)
 
 Lets see how we can test actions next.
 
@@ -351,11 +315,10 @@ The first step is to import the action to be tested, the constant it should
 return and `expect`:
 
 ```javascript
-// NavBar.actions.test.js
+// actions.test.js
 
-import { toggleNav } from '../NavBar.actions';
-import { TOGGLE_NAV } from '../NavBar.constants';
-import expect from 'expect';
+import { toggleNav } from '../actions';
+import { TOGGLE_NAV } from '../constants';
 ```
 
 Then we `describe` the actions:
@@ -363,9 +326,7 @@ Then we `describe` the actions:
 ```javascript
 describe('NavBar actions', () => {
   describe('toggleNav', () => {
-    it('should return the correct constant', () => {
-
-    });
+    it('should return the correct constant', () => {});
   });
 });
 ```
@@ -377,12 +338,12 @@ And the last step is to add the assertion:
 ```javascript
 it('should return the correct constant', () => {
   expect(toggleNav()).toEqual({
-    type: TOGGLE_NAV
+    type: TOGGLE_NAV,
   });
 });
 ```
 
-If our `toggleNav` action works correctly, this is the output Mocha will show us:
+If our `toggleNav` action works correctly, this is the output Jest will show us:
 
 ```
 NavBar actions
@@ -392,4 +353,4 @@ NavBar actions
 
 And that's it, we now know when somebody breaks the `toggleNav` action!
 
-*Continue to learn how to test your application with [Component Testing](component-testing.md)!*
+_Continue to learn how to test your application with [Component Testing](component-testing.md)!_

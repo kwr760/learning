@@ -10,8 +10,8 @@ Initializes a new project with this boilerplate. Deletes the `react-boilerplate`
 git history, installs the dependencies and initializes a new repository.
 
 > Note: This command is self-destructive, once you've run it the init script is
-gone forever. This is for your own safety, so you can't delete your project's
-history irreversibly by accident.
+> gone forever. This is for your own safety, so you can't delete your project's
+> history irreversibly by accident.
 
 ## Development
 
@@ -31,8 +31,8 @@ Deletes the example app, replacing it with the smallest amount of boilerplate
 code necessary to start writing your app!
 
 > Note: This command is self-destructive, once you've run it you cannot run it
-again. This is for your own safety, so you can't delete portions of your project
-irreversibly by accident.
+> again. This is for your own safety, so you can't delete portions of your project
+> irreversibly by accident.
 
 ## Generators
 
@@ -41,9 +41,8 @@ npm run generate
 ```
 
 Allows you to auto-generate boilerplate code for common parts of your
-application, specifically `component`s, `container`s, and `route`s. You can
-also run `npm run generate <part>` to skip the first selection. (e.g. `npm run
-generate container`)
+application, specifically `component`s, and `container`s. You can
+also run `npm run generate <part>` to skip the first selection. (e.g. `npm run generate container`)
 
 ## Server
 
@@ -54,23 +53,26 @@ npm start
 ```
 
 Starts the development server and makes your application accessible at
-`localhost:3000`. Tunnels that server with `ngrok`, which means the website
-accessible anywhere! Changes in the application code will be hot-reloaded.
+`localhost:3000`. Changes in the application code will be hot-reloaded.
 
 ### Production
 
 ```Shell
-npm run start:prod
+npm run start:production
 ```
 
-Starts the production server, configured for optimal performance: assets are
+- Runs tests (see `npm test`)
+- Builds your app (see `npm run build`)
+- Starts the production server (see `npm run start:prod`)
+
+The app is built for optimal performance: assets are
 minified and served gzipped.
 
-### Port
+### Host and Port
 
-To change the port the app is accessible at pass the `--port` option to the command
-with `--`. E.g. to make the app visible at `localhost:5000`, run the following:
-`npm start -- --port 5000`
+To change the host and/or port the app is accessible at, pass the `--host` and/or `--port` option to the command
+with `--`. E.g. to make the app visible at `my-local-hostname:5000`, run the following:
+`npm start -- --host my-local-hostname --port 5000`
 
 ## Building
 
@@ -78,8 +80,9 @@ with `--`. E.g. to make the app visible at `localhost:5000`, run the following:
 npm run build
 ```
 
-Preps your app for deployment. Optimizes and minifies all files, piping them to
-a folder called `build`. Upload the contents of `build` to your web server to
+Preps your app for deployment (does not run tests). Optimizes and minifies all files, piping them to the `build` folder.
+
+Upload the contents of `build` to your web server to
 see your work live!
 
 ## Testing
@@ -90,42 +93,17 @@ about our testing setup!
 ## Unit testing
 
 ```Shell
-npm run test
+npm test
 ```
 
-Tests your application with the unit tests specified in the `*test.js` files
+Tests your application with the unit tests specified in the `**/tests/*.js` files
 throughout the application.  
-All the `test` commands allow an optional `-- --grep string` argument to filter
-the tests ran by Karma. Useful if you need to run a specific test only.
+All the `test` commands allow an optional `-- [string]` argument to filter
+the tests run by Jest. Useful if you need to run a specific test only.
 
 ```Shell
 # Run only the Button component tests
-npm run test:watch -- --grep Button
-```
-
-### Browsers
-
-To choose the browser to run your unit tests in (Chrome by default), run one of
-the following commands:
-
-#### Firefox
-
-```Shell
-npm run test:firefox
-```
-
-#### Safari
-
-```Shell
-npm run test:safari
-```
-
-#### Internet Explorer
-
-*Windows only!*
-
-```Shell
-npm run test:ie
+npm test -- Button
 ```
 
 ### Watching
@@ -134,25 +112,16 @@ npm run test:ie
 npm run test:watch
 ```
 
-Watches changes to your application and reruns tests whenever a file changes.
+Watches changes to your application and re-runs tests whenever a file changes.
 
 ### Remote testing
 
 ```Shell
 npm run start:tunnel
 ```
+
 Starts the development server and tunnels it with `ngrok`, making the website
-available on the entire world. Useful for testing on different devices in different locations!
-
-### Performance testing
-
-```Shell
-npm run pagespeed
-```
-
-With the remote server running (i.e. while `npm run start:prod` is running in
-another terminal session), enter this command to run Google PageSpeed Insights
-and get a performance check right in your terminal!
+available worldwide. Useful for testing on different devices in different locations!
 
 ### Dependency size test
 
@@ -161,7 +130,7 @@ npm run analyze
 ```
 
 This command will generate a `stats.json` file from your production build, which
-you can upload to the [webpack analyzer](https://webpack.github.io/analyse/). This
+you can upload to the [webpack analyzer](https://webpack.github.io/analyse/) or [Webpack Visualizer](https://chrisbateman.github.io/webpack-visualizer/). This
 analyzer will visualize your dependencies and chunks with detailed statistics
 about the bundle size.
 
@@ -171,20 +140,10 @@ about the bundle size.
 npm run lint
 ```
 
-Lints your JavaScript and CSS.
-
-### JavaScript
+Lints your JavaScript and your CSS.
 
 ```Shell
-npm run lint:js
+npm run lint:eslint:fix -- .
 ```
 
-Only lints your JavaScript.
-
-### CSS
-
-```Shell
-npm run lint:css
-```
-
-Only lints your CSS.
+Lints your code and tries to fix any errors it finds.
