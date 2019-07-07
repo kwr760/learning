@@ -15,41 +15,30 @@
     "analyze:clean": "rimraf stats.json",
     "preanalyze": "npm run analyze:clean",
     "analyze": "node ./internals/scripts/analyze.js",
-
     "extract-intl": "babel-node --presets es2015,stage-0 -- ./internals/scripts/extract-intl.js",
-
     "npmcheckversion": "node ./internals/scripts/npmcheckversion.js",
-
     "preinstall": "npm run npmcheckversion",
     "postinstall": "npm run build:dll",
-
     "prebuild": "npm run build:clean && npm run test",
     "build": "cross-env NODE_ENV=production webpack --config internals/webpack/webpack.prod.babel.js --color -p",
     "build:clean": "npm run test:clean && rimraf ./build",
     "build:dll": "node ./internals/scripts/dependencies.js",
-
     "start": "cross-env NODE_ENV=development node server",
     "start:tunnel": "cross-env NODE_ENV=development ENABLE_TUNNEL=true node server",
     "start:production": "npm run build && npm run start:prod",
     "start:prod": "cross-env NODE_ENV=production node server",
-
     "pagespeed": "node ./internals/scripts/pagespeed.js",
-
     "presetup": "npm i chalk shelljs yarn",
     "setup": "node ./internals/scripts/setup.js",
     "postsetup": "npm run build:dll",
-
     "clean": "shjs ./internals/scripts/clean.js",
     "clean:all": "npm run analyze:clean && npm run test:clean && npm run build:clean",
-
     "generate": "plop --plopfile internals/generators/index.js",
-
     "lint": "npm run lint:js && npm run lint:css",
     "lint:eslint": "eslint --ignore-path .gitignore --ignore-pattern internals/scripts",
     "lint:js": "npm run lint:eslint -- . ",
     "lint:css": "stylelint ./app/**/*.css",
     "lint:staged": "lint-staged",
-
     "pretest": "npm run test:clean && npm run lint",
     "test:clean": "rimraf ./coverage",
     "test": "cross-env NODE_ENV=test karma start internals/testing/karma.conf.js --single-run",
@@ -57,7 +46,6 @@
     "test:firefox": "npm run test -- --browsers Firefox",
     "test:safari": "npm run test -- --browsers Safari",
     "test:ie": "npm run test -- --browsers IE",
-
     "coveralls": "cat ./coverage/lcov/lcov.info | coveralls"
   },
   "lint-staged": {
@@ -86,74 +74,6 @@
           "transform-react-constant-elements",
           "transform-react-inline-elements"
         ]
-      }
-    }
-  },
-  "eslintConfig": {
-    "parser": "babel-eslint",
-    "extends": "airbnb",
-    "env": {
-      "browser": true,
-      "node": true,
-      "mocha": true,
-      "es6": true
-    },
-    "plugins": [
-      "react",
-      "jsx-a11y"
-    ],
-    "parserOptions": {
-      "ecmaVersion": 6,
-      "sourceType": "module",
-      "ecmaFeatures": {
-        "jsx": true
-      }
-    },
-    "rules": {
-      "arrow-body-style": [
-        2,
-        "as-needed"
-      ],
-      "comma-dangle": [
-        2,
-        "always-multiline"
-      ],
-      "import/imports-first": 0,
-      "import/newline-after-import": 0,
-      "import/no-extraneous-dependencies": 0,
-      "import/no-named-as-default": 0,
-      "import/no-unresolved": 2,
-      "import/prefer-default-export": 0,
-      "indent": [
-        2,
-        2,
-        {
-          "SwitchCase": 1
-        }
-      ],
-      "jsx-a11y/aria-props": 2,
-      "jsx-a11y/heading-has-content": 0,
-      "jsx-a11y/href-no-hash": 2,
-      "jsx-a11y/label-has-for": 2,
-      "jsx-a11y/mouse-events-have-key-events": 2,
-      "jsx-a11y/role-has-required-aria-props": 2,
-      "jsx-a11y/role-supports-aria-props": 2,
-      "max-len": 0,
-      "newline-per-chained-call": 0,
-      "no-console": 1,
-      "no-use-before-define": 0,
-      "prefer-template": 2,
-      "react/jsx-filename-extension": 0,
-      "react/jsx-no-target-blank": 0,
-      "react/require-extension": 0,
-      "react/self-closing-comp": 0,
-      "require-yield": 0
-    },
-    "settings": {
-      "import/resolver": {
-        "webpack": {
-          "config": "./internals/webpack/webpack.test.babel.js"
-        }
       }
     }
   },
@@ -224,7 +144,7 @@
     "sanitize.css": "4.1.0",
     "warning": "3.0.0",
     "whatwg-fetch": "1.0.0",
-    "yarn": "^1.15.2"
+    "yarn": "^1.16.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
