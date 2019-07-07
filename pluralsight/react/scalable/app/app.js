@@ -4,89 +4,86 @@
  * This is the entry file for the application, only setup and boilerplate
  * code.
  */
-import 'babel-polyfill';
 
-/* eslint-disable import/no-unresolved */
-// Load the manifest.json file and the .htaccess file
-import '!file?name=[name].[ext]!./manifest.json';
-import 'file?name=[name].[ext]!./.htaccess';
-/* eslint-enable import/no-unresolved */
+// Needed for redux-saga es6 generator support
+import '@babel/polyfill';
 
 // Import all the third party stuff
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { applyRouterMiddleware, Router, browserHistory } from 'react-router';
-import { syncHistoryWithStore } from 'react-router-redux';
-import useScroll from 'react-router-scroll';
+import { ConnectedRouter } from 'connected-react-router';
+import FontFaceObserver from 'fontfaceobserver';
+import history from 'utils/history';
+import 'sanitize.css/sanitize.css';
+
+// Import root app
+import App from 'containers/App';
+
+// Import Language Provider
 import LanguageProvider from 'containers/LanguageProvider';
-import configureStore from './store';
+
+// Load the favicon and the .htaccess file
+import '!file-loader?name=[name].[ext]!./images/favicon.ico';
+import 'file-loader?name=.htaccess!./.htaccess'; // eslint-disable-line import/extensions
+
+import configureStore from './configureStore';
 
 // Import i18n messages
 import { translationMessages } from './i18n';
 
-// Import the CSS reset, which HtmlWebpackPlugin transfers to the build folder
-import 'sanitize.css/sanitize.css';
+// Observe loading of Open Sans (to remove open sans, remove the <link> tag in
+// the index.html file and this observer)
+const openSansObserver = new FontFaceObserver('Open Sans', {});
 
-// Create redux store with history
-// this uses the singleton browserHistory provided by react-router
-// Optionally, this could be changed to leverage a created history
-// e.g. `const browserHistory = useRouterHistory(createBrowserHistory)();`
-const initialState = {};
-const store = configureStore(initialState, browserHistory);
-
-// Sync history and store, as the react-router-redux reducer
-// is under the non-default key ("routing"), selectLocationState
-// must be provided for resolving how to retrieve the "route" in the state
-import { selectLocationState } from 'containers/App/selectors';
-const history = syncHistoryWithStore(browserHistory, store, {
-  selectLocationState: selectLocationState(),
+// When Open Sans is loaded, add a font-family using Open Sans to the body
+openSansObserver.load().then(() => {
+  document.body.classList.add('fontLoaded');
 });
 
-// Set up the router, wrapping all Routes in the App component
-import App from 'containers/App';
-import createRoutes from './routes';
-const rootRoute = {
-  component: App,
-  childRoutes: createRoutes(store),
-};
+// Create redux store with history
+const initialState = {};
+const store = configureStore(initialState, history);
+const MOUNT_NODE = document.getElementById('app');
 
-
-const render = (translatedMessages) => {
+const render = messages => {
   ReactDOM.render(
     <Provider store={store}>
-      <LanguageProvider messages={translatedMessages}>
-        <Router
-          history={history}
-          routes={rootRoute}
-          render={
-            // Scroll to top when going to a new page, imitating default browser
-            // behaviour
-            applyRouterMiddleware(useScroll())
-          }
-        />
+      <LanguageProvider messages={messages}>
+        <ConnectedRouter history={history}>
+          <App />
+        </ConnectedRouter>
       </LanguageProvider>
     </Provider>,
-    document.getElementById('app')
+    MOUNT_NODE,
   );
 };
 
-
-// Hot reloadable translation json files
 if (module.hot) {
+  // Hot reloadable React components and translation json files
   // modules.hot.accept does not accept dynamic dependencies,
   // have to be constants at compile-time
-  module.hot.accept('./i18n', () => {
+  module.hot.accept(['./i18n', 'containers/App'], () => {
+    ReactDOM.unmountComponentAtNode(MOUNT_NODE);
     render(translationMessages);
   });
 }
 
 // Chunked polyfill for browsers without Intl support
 if (!window.Intl) {
-  Promise.all([
-    System.import('intl'),
-    System.import('intl/locale-data/jsonp/en.js'),
-  ]).then(() => render(translationMessages));
+  new Promise(resolve => {
+    resolve(import('intl'));
+  })
+    .then(() =>
+      Promise.all([
+        import('intl/locale-data/jsonp/en.js'),
+        import('intl/locale-data/jsonp/de.js'),
+      ]),
+    ) // eslint-disable-line prettier/prettier
+    .then(() => render(translationMessages))
+    .catch(err => {
+      throw err;
+    });
 } else {
   render(translationMessages);
 }
@@ -94,5 +91,6 @@ if (!window.Intl) {
 // Install ServiceWorker and AppCache in the end since
 // it's not most important operation and if main code fails,
 // we do not want it installed
-import { install } from 'offline-plugin/runtime';
-install();
+if (process.env.NODE_ENV === 'production') {
+  require('offline-plugin/runtime').install(); // eslint-disable-line global-require
+}

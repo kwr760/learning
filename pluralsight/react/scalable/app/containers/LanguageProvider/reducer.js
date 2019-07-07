@@ -4,23 +4,23 @@
  *
  */
 
-import { fromJS } from 'immutable';
-import {
-  CHANGE_LOCALE,
-} from './constants';
+import produce from 'immer';
 
-const initialState = fromJS({
-  locale: 'en',
-});
+import { CHANGE_LOCALE } from './constants';
+import { DEFAULT_LOCALE } from '../../i18n';
 
-function languageProviderReducer(state = initialState, action) {
-  switch (action.type) {
-    case CHANGE_LOCALE:
-      return state
-        .set('locale', action.locale);
-    default:
-      return state;
-  }
-}
+export const initialState = {
+  locale: DEFAULT_LOCALE,
+};
+
+/* eslint-disable default-case, no-param-reassign */
+const languageProviderReducer = (state = initialState, action) =>
+  produce(state, draft => {
+    switch (action.type) {
+      case CHANGE_LOCALE:
+        draft.locale = action.locale;
+        break;
+    }
+  });
 
 export default languageProviderReducer;

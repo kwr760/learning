@@ -1,20 +1,49 @@
-// selectLocationState expects a plain JS object for the routing state
-const selectLocationState = () => {
-  let prevRoutingState;
-  let prevRoutingStateJS;
+/**
+ * The global state selectors
+ */
 
-  return (state) => {
-    const routingState = state.get('route'); // or state.route
+import { createSelector } from 'reselect';
+import { initialState } from './reducer';
 
-    if (!routingState.equals(prevRoutingState)) {
-      prevRoutingState = routingState;
-      prevRoutingStateJS = routingState.toJS();
-    }
+const selectGlobal = state => state.global || initialState;
 
-    return prevRoutingStateJS;
-  };
-};
+const selectRouter = state => state.router;
+
+const makeSelectCurrentUser = () =>
+  createSelector(
+    selectGlobal,
+    globalState => globalState.currentUser,
+  );
+
+const makeSelectLoading = () =>
+  createSelector(
+    selectGlobal,
+    globalState => globalState.loading,
+  );
+
+const makeSelectError = () =>
+  createSelector(
+    selectGlobal,
+    globalState => globalState.error,
+  );
+
+const makeSelectRepos = () =>
+  createSelector(
+    selectGlobal,
+    globalState => globalState.userData.repositories,
+  );
+
+const makeSelectLocation = () =>
+  createSelector(
+    selectRouter,
+    routerState => routerState.location,
+  );
 
 export {
-  selectLocationState,
+  selectGlobal,
+  makeSelectCurrentUser,
+  makeSelectLoading,
+  makeSelectError,
+  makeSelectRepos,
+  makeSelectLocation,
 };
