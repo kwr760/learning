@@ -42,6 +42,7 @@ module.exports = {
       },
     ],
     'jsx-a11y/aria-props': 2,
+    'jsx-a11y/anchor-is-valid': 'off',
     'jsx-a11y/heading-has-content': 0,
     'jsx-a11y/label-has-associated-control': [
       2,
