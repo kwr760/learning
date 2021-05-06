@@ -13,7 +13,7 @@
     "moment": "^2.9.0",
     "nedb": "^1.1.1",
     "stripe": "^7.0.0",
-    "underscore": "^1.8.2"
+    "underscore": "^1.12.1"
   },
   "devDependencies": {
     "nock": "^10.0.6",
